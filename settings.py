@@ -32,3 +32,7 @@ KEYS = {
     "e": "e6.mp3",
     "c": "c6.mp3"
 }
+path_file = "assets/sounds/"
+WRONG_SOUND = "wrong.mp3"
+MISSED_SOUND = "miss.mp3"
+FON_SOUND = "fon.mp3"

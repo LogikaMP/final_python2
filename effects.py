@@ -1,8 +1,8 @@
 '''Ефекти – анімація клавіш і візуальні ефекти'''
 from pygame import image,transform
 from settings import BLACK, BLUE, GRAY, KEYS
-key_up = image.load("assets/images/key_pressed.png")
-key_down = image.load("assets/images/key_unpressed.png")
+key_up = image.load("play_piano/assets/images/key_pressed.png")
+key_down = image.load("play_piano/assets/images/key_unpressed.png")
 
 
 

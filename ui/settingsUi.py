@@ -67,9 +67,22 @@ class SettingsMenu:
         self.slider_num_keys = Slider(x2,y+h//3,w*3,h//2,max_num=7,col=col_slider,col_pointer=col_btn)
         self.num_keys = 0
         # створи змінну для збереження кількості клавіш = 0
+        self.rand = False
+        y = y + h*2
+        self.btn_rand_text = Button(x2+w//3,y,w,h,col_btn,text="Rand sound",color_text="BLACK",command=None)
+        self.btn_rand = Button(x2+w//3+w+10, y,h,h,col_btn,"-",col_btn,self.active_rand )
         # задай початковий стан (гра)= властивість game_part = "game"
         self.game_part = "game"
 
+    def active_rand(self):
+        if self.rand:
+            self.rand = False
+            self.btn_rand.color = GRAY
+            self.btn_rand.add_text("-")
+        else:
+            self.rand = True 
+            self.btn_rand.color =BLUE
+            self.btn_rand.add_text("X")
     def open_menu(self):
         # переключи стан на меню налаштувань
         self.game_part = "settings"
@@ -97,7 +110,8 @@ class SettingsMenu:
 
             # намалюй повзунок кількості клавіш
             self.slider_num_keys.draw(window)
-  
+            self.btn_rand_text.draw(window)
+            self.btn_rand.draw(window)
 
            
     #метод оновлення меню
@@ -111,6 +125,7 @@ class SettingsMenu:
         
             # перевір натискання кнопки назад
             self.btn_close.is_clicked()
+            self.btn_rand.is_clicked()
             # оброби перетягування повзунка гучності
             if event:
                 self.slider_volume.update(event=event)

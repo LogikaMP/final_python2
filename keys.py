@@ -1,25 +1,28 @@
 '''Клавіші – логіка створення та відображення'''
-from pygame import Rect, image, transform
-from settings import KEYS, KEY_WIDTH, KEY_HEIGHT, X_KEY_START, Y_KEY_START
+from pygame import Rect, image, transform, mixer
+from settings import*
 from effects import draw_effect
+from random import randint
+mixer.init()
 
 
 def create_keys(num_keys):
     keys = {}
-    sounds_img = {}
     x = X_KEY_START
     data = dict(list(KEYS.items())[:num_keys ])
     for key in data:
-        r = Rect(x, Y_KEY_START, KEY_WIDTH, KEY_HEIGHT)
+        y = randint(-500, 0)
+        r = Rect(x, y, KEY_WIDTH, KEY_HEIGHT)
         keys[key] = r
         x += KEY_WIDTH + 10
-        
     return keys
 
 def draw_keys(screen, keys, is_pressed):
     for key,rect in keys.items():
         pressed = key in is_pressed
         draw_effect(screen, rect, pressed)
+
+
 
 
 # 2. Створити функцію, що створює список ректів - клавіш:
