@@ -1,11 +1,11 @@
 # Імпортувати модуль для випадковості
-
+from random import choice,randint
 # Імпортувати модуль для роботи з літерами англійського алфавіту
-
+import string
 # Імпортувати клас кнопки
-
+from buttons import Button
 # Імпортувати всі налаштування гри
-
+from settings import *
 
 # Створити функцію для генерації випадкових літер
 # Створити порожній список для літер
@@ -13,15 +13,22 @@
 # Вибрати випадкову англійську літеру
 # Додати літеру у список
 # Повернути список випадкових літер
-
-
+def random_letters(num):
+    letters = []
+    for i in range(num):
+        a = choice(string.ascii_letters)
+        letters.append(a)
+    return letters
 # Створити функцію для генерації випадкового кольору
 # Згенерувати випадкове значення червоного каналу (0–255)
 # Згенерувати випадкове значення зеленого каналу (0–255)
 # Згенерувати випадкове значення синього каналу (0–255)
 # Повернути колір у форматі (R, G, B)
-
-
+def random_color():
+    r = randint(0,255)
+    g = randint(0,255)
+    b = randint(0,255)
+    return(r,g,b)
 # Створити функцію для генерації кнопок
 # Отримати список випадкових літер
 # Створити порожній список кнопок
@@ -33,3 +40,13 @@
 # Додати кнопку у список
 # Зсунути позицію X для наступної кнопки
 # Повернути список створених кнопок
+def generat_btn(num):
+    letters = random_letters(num)
+    btns = []
+    x = BTN_X
+    y = BTN_Y
+    for letter in letters:
+        btn = Button(x,y,BTN_W,BTN_H,random_color(),letter,random_color(),None)
+        btns.append(btn)
+        x+= BTNS_W//num
+    return btns
