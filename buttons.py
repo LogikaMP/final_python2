@@ -2,6 +2,8 @@
 
 '''UI кнопки – елементи керування'''
 import pygame
+from settings import*
+
 class Sprite:
     def __init__(self,x=10,y=10,w=50,h=50,speed=0,image=None,color=(200,0,0)):
             self.image = image
@@ -99,3 +101,5 @@ class Button(Sprite):  # Створюємо клас кнопки, який на
                     # Виконуємо функцію кнопки
                self.was_pressed = click
                # Запам’ятовуємо стан кнопки миші, щоб не викликати функцію багато разів
+
+

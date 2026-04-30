@@ -1,56 +1,81 @@
-'''Main – запуск гри та обробка подій'''
-# 6. Імпортуємо все що необхідно для роботи гри
-import pygame
-from settings import GRAY, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE,GRAY,BLUE ,KEYS, FON, FON_SOUND
-from keys import create_keys, draw_keys,load_sounds_img, move_keys, check_keys
-from effects import draw_effect_sound
-from sounds import load_sounds, load_rand_sounds, wong_sound, missed_sound
-from random import randint
-from buttons import Button
-'''Додай імопрт класу меню'''
 
-# 7. Ініцилізація та Створити вікно 
+import pygame
+from settings import *
+from buttons import Button
+from effects import draw_effect, draw_start
+from keys import create_keys, draw_keys, move_keys, find_last_key
+from sounds import*
+
+#додай функцію start(), яка буде запускати гру,
+#  і викликати функцію для створення клавіш на основі поточного рівня,
+#  а також встановлювати фонову музику для цього рівня
+def start():
+   
+
+
+
+
+
+
+
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
-# 8. Створити список ректів - клавіш
-btn_start = Button(20,20,100,40,GRAY,"Level 1",WHITE,BLUE,None)
-# 9. Створити порожню множину - натиснуті клавіши
-keys_pressed = set()
-# 10. Створити список звуків - завантажити звуки нот
-keys_sounds = load_sounds()
-keys_rect = create_keys(7)
-'''Створи обєкт меню:
-координати - 20,20,
-розмір - 100, 40
-кольри - GREY, WHITE, BLUE'''
+#завантажуємо фонову картинку для стартового екрану
+fon_start 
+fon_start 
+#стоври зміну для фону гри, список клавіш
+fon_game 
+keys_rect 
 
-# 11. Головний цикл гри:
+keys_pressed= set()
+keys_sounds = load_sounds()
+
+#створи кнопку запуску гри на стартовому екрані, яка буде викликати функцію start() при натисканні
+#координати 150, 150, розмір 200 на 100, колір (40, 98, 250), текст "Start", колір тексту (38, 91, 105)
+
+btn_start  
+
 run = True
+#змінна для відстеження поточної частини гри (старт, гра, кінець)
 game_part = "start"
+#змінна для відстеження поточного рівня, таймера та кількості пропущених клавіш
+level = 0
+timer = 0
+miss = 0
+# кнопка-текст для відображення таймера та кількості пропущених клавіш під час гри
+#координати 10, 10, розмір 70 на 40, колір (40, 98, 250), текст "Time: {timer}", колір тексту (38, 91, 105)
+#координати 10, 60, розмір 70 на 40, колір (40, 98, 250), текст "Miss: {miss}", колір тексту (38, 91, 105)
+btn_timer 
+bnt_miss 
+end 
 while run:
-   
-# - обробка закртиття вікна
+   #додай перевірку для відображення різних частин гри (старт, гра, кінець) та виклику відповідних функцій для відображення екрану та обробки логіки гри
+   #якщо старт - фон, кнопка старту, перевірка кліку по кнопці
+   #якщо гра - фон рівня, відображення клавіш, рух клавіш, відображення таймера та пропущених клавіш, перевірка на кінець рівня або гри
+  
+
+
+
    for event in pygame.event.get():
-      '''виклич метод оновлення меню - передай подію event'''
-      
-        
       if event.type == pygame.QUIT:
          run = False
 
-#  - обробка кліку по клавішам  
-      if event.type == pygame.MOUSEBUTTONDOWN :
-         pos = event.pos
-         
-         
+      if event.type == pygame.MOUSEBUTTONDOWN:
+         if game_part == "game":
+            pos = event.pos
+            #знайти клавішу з найбільшою координатою по висоті, яка не була натиснута, щоб перевіряти її при натисканні клавіші користувачем
+            # первір чи по ній клікнуто
+            # якщо так - додай її до натиснутих, відтворити звук клавіші
+            # якщо ні - відтворити звук помилки та збільшити лічиль
+              
+            
 
-#  - відобразити фон, клавіши, оновити вікно
-   window.fill(FON)
-   draw_keys(window,keys_rect,keys_pressed)
-      
+            
+
 
    pygame.display.flip()
-   clock.tick(120)
+   clock.tick(60)
     # обробка лкіку по клавішам
 
 
