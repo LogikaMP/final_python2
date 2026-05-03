@@ -1,6 +1,6 @@
 '''Ефекти – анімація клавіш і візуальні ефекти'''
 from pygame import image,transform
-from settings import BLACK, BLUE, GRAY, KEYS
+from settings import BLACK, BLUE, GRAY, KEYS,path_img,X_KEY_START,Y_KEY_START,KEY_WIDTH
 key_up = image.load("assets/images/key_pressed.png")
 key_down = image.load("assets/images/key_unpressed.png")
 
@@ -32,3 +32,26 @@ def draw_effect(screen, rect, pressed):
 #  - отримати екран, де малювати
 #  - отримати рект клавіші, на якій потрібно відобразити ефект
 #  - отримати інформацію про те, чи клавіша натиснута
+def load_sounds_img():
+    sound_img = {}
+    x = X_KEY_START + 15
+    y = Y_KEY_START
+    for key in KEYS:
+        img = image.load(path_img + "notes/"+key+".png")
+        img = transform.scale(img,(25,50))
+        sound_img[key]={"img":img,
+                        "x":x,
+                        "y":y
+                        }
+        x += KEY_WIDTH + 10
+    return sound_img
+def move_sound_img(sounds_img_list,screen):
+    for img in sounds_img_list.copy():
+        img["y"]-= 1
+        if img["y"] < 0:
+            sounds_img_list.remove(img)
+            return
+        screen.blit(img["img"],(img["x"],img["y"]))
+        
+
+

@@ -3,7 +3,7 @@
 import pygame
 from settings import GRAY, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE,GRAY,BLUE ,KEYS, FON
 from keys import create_keys, draw_keys
-from effects import draw_effect_sound
+from effects import draw_effect_sound,load_sounds_img,move_sound_img
 from sounds import load_sounds
 '''Додай імопрт класу меню'''
 from ui.settingsUi import SettingsMenu
@@ -18,7 +18,8 @@ keys_rect = create_keys(setting.num_keys)
 keys_pressed = set()
 # 10. Створити список звуків - завантажити звуки нот
 keys_sounds = load_sounds()
-
+sound_img= load_sounds_img()
+list_sound_img = []
 '''Створи обєкт меню:
 координати - 20,20,
 розмір - 100, 40
@@ -45,6 +46,7 @@ while run:
             keys_sounds[key_name].set_volume(setting.volume)
           
             keys_sounds [key_name].play()
+            list_sound_img.append(sound_img[key].copy())
             keys_pressed.add(key_name)
       if event.type == pygame.KEYUP:
          key_name = pygame.key.name(event.key)
@@ -58,6 +60,7 @@ while run:
                keys_sounds[key].set_volume(setting.volume)
               
                keys_sounds[key].play()
+               list_sound_img.append(sound_img[key].copy())
                keys_pressed.add(key)
       if event.type == pygame.MOUSEBUTTONUP:
          pos = event.pos
@@ -75,7 +78,7 @@ while run:
    '''додай умову - малювати якщо стангри=гра(перевір значення властивості меню)'''
    if setting.game_part == "game":
       draw_keys(window,keys_rect,keys_pressed)
- 
+      move_sound_img(list_sound_img,window)
    pygame.display.flip()
     # обробка лкіку по клавішам
 

@@ -32,3 +32,4 @@ KEYS = {
     "e": "e6.mp3",
     "c": "c6.mp3"
 }
+path_img = "assets/images/"
