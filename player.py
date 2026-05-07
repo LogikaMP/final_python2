@@ -59,18 +59,29 @@ class Player (Sprite):
 # Намалювати гравця на екрані
 # Виконати рух гравця
 # Виконати анімацію
-
+    def update (self,window,btns):
+        self.draw(window)
+        self.move(btns)
+        self.anime()
 
 # Створити клас Enemy (ворог), який наслідує Player
 # Оголосити конструктор ворога з параметрами
 # Викликати конструктор батьківського класу
 # Створити змінну кроку для таймера руху
-
+class Enemy(Player):
+    def __init__(self, x=10, y=10, w=50, h=50, speed=0, images=[]):
+        super().__init__(x, y, w, h, speed, images)
+        self.step = 0
+        
 
 # Створити функцію оновлення ворога
 # Намалювати ворога на екрані
 # Виконати рух ворога
 # Виконати анімацію
+    def update(self,window):
+        self.draw(window)
+        self.move()
+        self.anime()
 
 
 # Створити функцію руху ворога
@@ -78,3 +89,8 @@ class Player (Sprite):
 # Якщо пройшов певний час:
 # Зсунути ворога вперед
 # Скинути лічильник кроків
+    def move(self):
+        self.step += 1
+        if self.step == 20:
+            self.rect.x += self.speed
+            self.step = 0
