@@ -1,25 +1,34 @@
 '''Main – запуск гри та обробка подій'''
 # 6. Імпортуємо все що необхідно для роботи гри
 import pygame
-from settings import GRAY, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE,GRAY,BLUE ,KEYS, FON
+from settings import GRAY, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE,GRAY,BLUE , FON
 from keys import create_keys, draw_keys
-from effects import draw_effect_sound,load_sounds_img,move_sound_img
+from effects import load_sounds_img,move_sound_img
 from sounds import load_sounds
 '''Додай імопрт класу меню'''
 from ui.settingsUi import SettingsMenu
 # 7. Ініцилізація та Створити вікно 
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-setting = SettingsMenu(20,20,100,40,GRAY,WHITE,BLUE)
+setting = SettingsMenu(10,10,100,40,GRAY,WHITE,BLUE)
 # 8. Створити список ректів - клавіш
 keys_rect = create_keys(setting.num_keys)
 
 # 9. Створити порожню множину - натиснуті клавіши
 keys_pressed = set()
 # 10. Створити список звуків - завантажити звуки нот
+'''НОВЕ:перевір значення on_rand_sound меню setting:
+якщо правда - завантаж випадкові звуки, 
+якщо ні - звичанів '''
+
 keys_sounds = load_sounds()
+''''''
+
 sound_img= load_sounds_img()
 list_sound_img = []
+'''НОВЕ:Виклич функцію що створить хвилі - waves'''
+
+''''''
 '''Створи обєкт меню:
 координати - 20,20,
 розмір - 100, 40
@@ -35,6 +44,9 @@ while run:
       setting.update(event)
       if len (keys_rect) != setting.num_keys:
          keys_rect = create_keys(setting.num_keys)
+      '''НОВЕ:перевір значення on_rand_sound меню setting:
+         якщо правда - завантаж випадкові звуки, 
+         якщо ні - звичанів '''
         
       if event.type == pygame.QUIT:
          run = False
@@ -46,6 +58,8 @@ while run:
             keys_sounds[key_name].set_volume(setting.volume)
           
             keys_sounds [key_name].play()
+            '''НОВЕ:виклич для відповідної хвиді мтеод грати'''
+
             list_sound_img.append(sound_img[key].copy())
             keys_pressed.add(key_name)
       if event.type == pygame.KEYUP:
@@ -60,6 +74,8 @@ while run:
                keys_sounds[key].set_volume(setting.volume)
               
                keys_sounds[key].play()
+               '''НОВЕ:виклич для відповідної хвиді мтеод грати'''
+
                list_sound_img.append(sound_img[key].copy())
                keys_pressed.add(key)
       if event.type == pygame.MOUSEBUTTONUP:
@@ -77,6 +93,11 @@ while run:
 
    '''додай умову - малювати якщо стангри=гра(перевір значення властивості меню)'''
    if setting.game_part == "game":
+      '''НОВЕ:Перебери словник хвиль:
+      кожну намалюй, онови'''
+      
+
+      
       draw_keys(window,keys_rect,keys_pressed)
       move_sound_img(list_sound_img,window)
    pygame.display.flip()

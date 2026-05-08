@@ -1,6 +1,6 @@
 '''Звуки – завантаження та відтворення аудіо'''
 from pygame.mixer import Sound
-from settings import KEYS
+from settings import KEYS, KEYS_RAND
 from random import choice
 
 def load_sounds():
@@ -14,3 +14,7 @@ def load_sounds():
 
 # 5. Створити функцію що завантажує звуки:
 
+'''НОВЕ: Створи функцію завантаження випадкових звуків load_rand_sound:
+все так само як у функції load_sounds, лише використай
+словник - KEYS_RAND 
+шлях до папки зі звуками - "assets/sounds/rand_sounds/"'''

@@ -15,7 +15,7 @@ KEY_WIDTH = 50
 KEY_HEIGHT = 100
 
 X_KEY_START = 50
-Y_KEY_START = 200
+Y_KEY_START = 260
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -31,5 +31,14 @@ KEYS = {
     "g": "g6.mp3",
     "e": "e6.mp3",
     "c": "c6.mp3"
+}
+KEYS_RAND = {
+    "a": "rand_01.wav",
+    "b": "rand_02.wav",
+    "d": "rand_03.wav",
+    "f": "rand_04.wav",
+    "g": "rand_05.wav",
+    "e": "rand_06.wav",
+    "c": "rand_07.wav",
 }
 path_img = "assets/images/"
