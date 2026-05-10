@@ -7,7 +7,7 @@
 import customtkinter as ctk
 from settinhs import *
 from pygame import mixer 
-
+mixer.init()
 # =====================
 # КЛАС MENU (ЕКРАН НАЛАШТУВАНЬ)
 # =====================

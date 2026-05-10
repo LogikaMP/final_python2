@@ -96,10 +96,10 @@ actyal_theme = dark_theme
 themes = [dark_theme, light_theme, blue_theme, green_theme]
 levels = [easy_texts, medium_texts, hard_texts]
 musics = ["","assets/level1.mp3", "assets/level2.mp3","assets/level3.mp3",
-         "assets/level4.mp3","assets/level5.mp3"]
+         "assets/level4.mp3","assets/level5.mp3","assets/level6.mp3"]
 settings_data = {
     "themes": ["Темна", "Світла", "Синя", "Зелена"],
     "levels": ["Легкий", "Середній", "Складний"],
-    "music": ["Вимкнено", "Варінат1", "Варінат2", "Варінат3","Варінат4","Варінат5"],
+    "music": ["Вимкнено", "Варіант1", "Варіант2", "Варіант3","Варіант4","Варіант5","Варіант6"],
     "volume_range": (0, 1)
 }
