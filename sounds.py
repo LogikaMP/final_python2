@@ -14,7 +14,15 @@ def load_sounds():
 
 # 5. Створити функцію що завантажує звуки:
 
-'''НОВЕ: Створи функцію завантаження випадкових звуків load_rand_sound:
+''': Створи функцію завантаження випадкових звуків load_rand_sound:
 все так само як у функції load_sounds, лише використай
 словник - KEYS_RAND 
 шлях до папки зі звуками - "assets/sounds/rand_sounds/"'''
+def load_rand_sounds():
+    sounds = {}
+    path_file = "assets/sounds/rand_sounds/"
+    for key,file in KEYS_RAND.items():
+        sound = Sound(path_file + file)
+        sounds[key] = sound
+    return sounds
+

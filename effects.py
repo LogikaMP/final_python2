@@ -1,4 +1,6 @@
 '''Ефекти – анімація клавіш і візуальні ефекти'''
+from turtle import width
+
 from pygame import image,transform, draw
 from settings import BLACK, BLUE, GRAY, KEYS,path_img,X_KEY_START,Y_KEY_START,KEY_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH
 import math
@@ -50,7 +52,7 @@ def load_sounds_img():
     return sound_img
 def move_sound_img(sounds_img_list,screen):
     for img in sounds_img_list.copy():
-        img["y"]-= 1
+        img["y"]-= 5
         if img["y"] < 0:
             sounds_img_list.remove(img)
             return
@@ -64,8 +66,15 @@ def random_color():
     )  
 '''НОВЕ: Створи клас для хвилі - приймає колір та коордианту у'''
 class Wave:
-    def __init__(self):
-        pass
+    def __init__(self, y):
+        self.color = random_color()
+        self.y = y
+        self.amplitude = 10
+        self.current_amplitude = 10
+        self.speed = 0.05
+        self.offset = random.randint(0,1000)
+
+        
         ...
         '''збережи колір та координату у'''
        
@@ -80,10 +89,15 @@ class Wave:
     '''Створи мтеод виклику хвилі-звуку
     міняє потчону амплітуду на випадкове число '''
     def play(self):
-        ...
+        self.current_amplitude = random.randint(5,15)
+
+        
 
     '''Створи мтеод оновленя хвилиі - плавного затухання'''
     def update(self):
+        self.current_amplitude += (self.amplitude - self.current_amplitude)*0.1
+        self.amplitude *= 0.92
+        self.offset += 4
         '''додаємо до амплітуди різницю поточної амплітуди та просто амплітуди помножити на 0.1
         (поточна амплітуда - амплітуда)*0.1'''
         '''зміни потчону амплітуду - помнож на 0.92'''
@@ -92,16 +106,23 @@ class Wave:
        
     '''Створи мтеод малювання хвилі на вікні'''
     def draw(self, screen):
+        points = []
+        for x in range(0, WINDOW_WIDTH, 8):
+            y = self.y + math.sin((x + self.offset)*self.speed)*self.current_amplitude
+            points.append((x,y))
+        draw.lines(screen,self.color,False,points,4)
+        
+
         ...
         '''створи список крапочок'''
         
         '''цикл для перебору х від 0, до ширини екрану з кроком 8'''
         
-            '''розраху коордианту у:
+        '''розраху коордианту у:
             стартова координата у + math.sin((x + відступ)* ШВИДКІСТЬ) + амплітуда
             '''
            
-            '''Додай кортеж з координат у список крапочк'''
+        '''Додай кортеж з координат у список крапочк'''
              
         '''Намалюй лінію за координатами з крапочок 
         draw.lines(вікно, колір,False, список крапок, 4)
@@ -115,5 +136,13 @@ class Wave:
 починаємо з коордианти у = 210, для кожної наступнох -20
 колір випадковий
 повернути словник хвиль'''
+def create_waves():
+    waves = {}
+    y = 210
+    for key in KEYS:
+        wave = Wave(y)
+        waves[key] = wave
+        y -= 20
+    return waves
 
 

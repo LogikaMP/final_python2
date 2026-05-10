@@ -64,30 +64,47 @@ class SettingsMenu:
         # ширина = три ширина, 
         # висота = половина висоти
         # (від 0 до кількості клавіш KEYS+1)
-        self.slider_num_keys = Slider(x2,y+h//3,w*3,h//2,max_num=7,col=col_slider,col_pointer=col_btn)
+        self.slider_num_keys = Slider(x2,y+h//3,w*3,h//2,max_num=7,
+                                      col=col_slider,col_pointer=col_btn)
         self.num_keys = 0
         # створи змінну для збереження кількості клавіш = 0
         # задай початковий стан (гра)= властивість game_part = "game"
         self.game_part = "game"
 
-        '''НОВЕ: додай кнопку та кнопку-текст для вкл/викл випадкових звуків:
+        ''': додай кнопку та кнопку-текст для вкл/викл випадкових звуків:
         у - у + дві висоти, х - х + ширина 
         розмір - w,h
         текст для тексту-кнопки Random sound '''
+        y = y + h*2
+        x = x + w + 10
+        self.txt_rand = Button(x,y,w,h,col_btn,text="Random sound",color_text=BLACK,command=None)
       
-        '''НОВЕ: для кнокпи зміни х - х + шрина кнопки + 10
+        ''': для кнокпи зміни х - х + шрина кнопки + 10
         текст - "-" 
         команда - rand_sound'''
+        self.btn_rand_sound = Button(x+w+10,y,h,h,col_btn,"-",col_txt,command=self.rand_sound)
         
-        '''НОВЕ: додай прапорець дя вкл/викл on_rand_sound'''
         
-    '''НОВЕ:створи метод  вкл/викл випадкових звуків'''
+        ''': додай прапорець для вкл/викл on_rand_sound'''
+        self.on_rand_sound = False
+
+
+    ''':створи метод  вкл/викл випадкових звуків'''
     def rand_sound(self):
+        if self.on_rand_sound:
+            self.btn_rand_sound.add_text("-")
+            self.on_rand_sound = False
+        else:
+            self.btn_rand_sound.add_text("X")
+            self.on_rand_sound = True    
+
+        
         '''якщо включен -вимкне і навпаки
         додай оновлення тексту на кнопці 
         "-" - викл
         "X" - вкл '''
         ...
+
 
 
     def open_menu(self):
@@ -117,8 +134,12 @@ class SettingsMenu:
 
             # намалюй повзунок кількості клавіш
             self.slider_num_keys.draw(window)
-            '''НОВЕ: промалюй текст-кнопку, кнопку для випадкових хвуків
+            ''': промалюй текст-кнопку, кнопку для випадкових хвуків
             виклик перевірку лкіка по кнопці '''
+            self.txt_rand.draw(window)
+            self.btn_rand_sound.draw(window)
+            self.btn_rand_sound.is_clicked()
+
 
   
 

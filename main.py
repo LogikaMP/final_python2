@@ -3,8 +3,8 @@
 import pygame
 from settings import GRAY, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE,GRAY,BLUE , FON
 from keys import create_keys, draw_keys
-from effects import load_sounds_img,move_sound_img
-from sounds import load_sounds
+from effects import load_sounds_img,move_sound_img,create_waves
+from sounds import load_sounds, load_rand_sounds
 '''Додай імопрт класу меню'''
 from ui.settingsUi import SettingsMenu
 # 7. Ініцилізація та Створити вікно 
@@ -20,19 +20,30 @@ keys_pressed = set()
 '''НОВЕ:перевір значення on_rand_sound меню setting:
 якщо правда - завантаж випадкові звуки, 
 якщо ні - звичанів '''
+if setting.on_rand_sound:
+   keys_rand_sounds = load_rand_sounds()
+else:
+   keys_rand_sounds = None
+sound_img= load_sounds_img()
+list_sound_img = []
+
 
 keys_sounds = load_sounds()
+keys_rand_sounds = load_rand_sounds()
 ''''''
 
 sound_img= load_sounds_img()
 list_sound_img = []
 '''НОВЕ:Виклич функцію що створить хвилі - waves'''
+waves = create_waves()
+
 
 ''''''
 '''Створи обєкт меню:
 координати - 20,20,
 розмір - 100, 40
 кольри - GREY, WHITE, BLUE'''
+setting = SettingsMenu(20,20,100,40,GRAY,WHITE,BLUE)
 
 # 11. Головний цикл гри:
 run = True
@@ -47,6 +58,14 @@ while run:
       '''НОВЕ:перевір значення on_rand_sound меню setting:
          якщо правда - завантаж випадкові звуки, 
          якщо ні - звичанів '''
+      if setting.on_rand_sound:
+         keys_rand_sounds = load_rand_sounds()
+      else:
+         keys_rand_sounds = None
+         sound_img = load_sounds_img()
+         list_sound_img = []
+
+      
         
       if event.type == pygame.QUIT:
          run = False
@@ -56,11 +75,15 @@ while run:
          if key_name in keys_rect:
             
             keys_sounds[key_name].set_volume(setting.volume)
-          
-            keys_sounds [key_name].play()
-            '''НОВЕ:виклич для відповідної хвиді мтеод грати'''
+            waves[key_name].play()
+            if setting.on_rand_sound:
+               keys_rand_sounds[key_name].set_volume(setting.volume) 
+               keys_rand_sounds[key_name].play()
+            else:
+               keys_sounds [key_name].play()
+            '''НОВЕ:виклич для відповідної хвиді мтеod    грати'''
 
-            list_sound_img.append(sound_img[key].copy())
+            list_sound_img.append(sound_img[key_name].copy())
             keys_pressed.add(key_name)
       if event.type == pygame.KEYUP:
          key_name = pygame.key.name(event.key)
@@ -70,11 +93,14 @@ while run:
          pos = event.pos
          for key, rect in keys_rect.items():
             if rect.collidepoint(pos) and not key in keys_pressed:
-               
+               waves[key].play()
                keys_sounds[key].set_volume(setting.volume)
-              
-               keys_sounds[key].play()
-               '''НОВЕ:виклич для відповідної хвиді мтеод грати'''
+               if setting.on_rand_sound:
+                  keys_rand_sounds[key].set_volume(setting.volume) 
+                  keys_rand_sounds[key].play()
+               else:
+                  keys_sounds[key].play()
+               '''НОВЕ:виклич для відповідної хвиді мтеod    грати'''
 
                list_sound_img.append(sound_img[key].copy())
                keys_pressed.add(key)
@@ -95,12 +121,18 @@ while run:
    if setting.game_part == "game":
       '''НОВЕ:Перебери словник хвиль:
       кожну намалюй, онови'''
+      for wave in waves.values():
+            wave.draw(window)
+            wave.update()
+      
       
 
       
       draw_keys(window,keys_rect,keys_pressed)
       move_sound_img(list_sound_img,window)
    pygame.display.flip()
+   fps = 60
+   pygame.time.Clock().tick(fps)
     # обробка лкіку по клавішам
 
 
