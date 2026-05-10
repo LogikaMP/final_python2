@@ -6,9 +6,10 @@ from train import GameFrame
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.temu = themes[0]
-        self.level = levels [0][0]
-        self.music = musics [0]
+        self.theme = 0
+        self.temu = themes[self.theme]
+        self.level = 0
+        self.music = settings_data["music"][0]
         self.volume = 0
         self.geometry("600x500")
         self.title("Typing trainer")

@@ -53,10 +53,11 @@ class Menu(ctk.CTkFrame):
                      font=("Arial",16)).pack(pady = 10)
         self.temu = ctk.CTkOptionMenu(self,values=settings_data["themes"],
                                       fg_color=self.app.temu["button"],
-                                      text_color=self.app.temu["text"]
-                                      ,button_color=self.app.temu["button_hover"],
+                                      text_color=self.app.temu["text"],
+                                      button_color=self.app.temu["button_hover"],
                                       command=self.chose_theme)
         self.temu.pack(pady = 10)
+        self.temu.set(settings_data["themes"][self.app.theme])
         # =====================
         # 🎵 БЛОК МУЗИКИ
         # =====================
@@ -68,10 +69,11 @@ class Menu(ctk.CTkFrame):
                      font=("Arial",16)).pack(pady = 10)
         self.music = ctk.CTkOptionMenu(self,values=settings_data["music"],
                                       fg_color=self.app.temu["button"],
-                                      text_color=self.app.temu["text"]
-                                      ,button_color=self.app.temu["button_hover"],
+                                      text_color=self.app.temu["text"],
+                                      button_color=self.app.temu["button_hover"],
                                       command=self.chose_music)
         self.music.pack(pady = 10)
+        self.music.set(self.app.music)
         # =====================
         # 📊 БЛОК РІВНЯ
         # =====================
@@ -83,10 +85,11 @@ class Menu(ctk.CTkFrame):
                      font=("Arial",16)).pack(pady = 10)
         self.level = ctk.CTkOptionMenu(self,values=settings_data["levels"],
                                       fg_color=self.app.temu["button"],
-                                      text_color=self.app.temu["text"]
-                                      ,button_color=self.app.temu["button_hover"],
+                                      text_color=self.app.temu["text"],
+                                      button_color=self.app.temu["button_hover"],
                                       command=self.chose_level)
         self.level.pack(pady = 10)
+        self.level.set(settings_data["levels"][self.app.level])
         # =====================
         # 🔊 БЛОК ГУЧНОСТІ
         # =====================
@@ -100,6 +103,7 @@ class Menu(ctk.CTkFrame):
                      font=("Arial",16)).pack(pady = 5)
         self.volume = ctk.CTkSlider(self,corner_radius=20,from_=settings_data["volume_range"][0],
                                     to=settings_data["volume_range"][1],command=self.chose_volume,)
+        self.volume.set(self.app.volume)
         self.volume.pack(pady = 5)
         # =====================
         # 💾 КНОПКА "ЗБЕРЕГТИ"
@@ -117,11 +121,16 @@ class Menu(ctk.CTkFrame):
     # =====================
     # 📊 ВИБІР РІВНЯ
     # =====================
+    # знайти індекс вибраного рівня
+    # взяти текст рівня з levels
+    # записати в app.level
     def chose_level(self, value):
-        # знайти індекс вибраного рівня
-        # взяти текст рівня з levels
-        # записати в app.level
-        pass
+        i = self.level.get() # отримуємо текст з dropdown
+        self.app.level = settings_data["levels"].index(i) # знаходимо індекс і записуємо в app.level
+
+
+        
+
 
 
     # =====================
@@ -131,7 +140,8 @@ class Menu(ctk.CTkFrame):
         # отримати значення зі слайдера
         # записати в app.volume
         # застосувати через mixer.music.set_volume()
-        pass
+        self.app.volume = self.volume.get() # отримуємо значення слайдера і записуємо в app.volume
+        mixer.music.set_volume(self.app.volume) # застосовуємо гучність до муз
 
 
     # =====================
@@ -141,28 +151,46 @@ class Menu(ctk.CTkFrame):
         # знайти індекс теми
         # взяти тему з themes
         # записати в app.theme
+        self.app.theme = settings_data["themes"].index(self.temu.get())
+        self.app.temu = themes[self.app.theme]
 
-        # ❗ важливо:
-        # UI треба ПЕРЕМАЛЮВАТИ
-        # - destroy старий Menu
-        # - створити новий Menu
+        # оновити фон всього додатку
+        self.app.configure(fg_color=self.app.temu["bg"])
+        if hasattr(self.app, "frame") and self.app.frame:
+            self.app.frame.configure(fg_color=self.app.temu["frame"])
 
-        # також оновити фон всього додатку
-        pass
+        # перезавантажити Menu UI з новою темою
+        self.destroy()
+        self.app.menu = Menu(self.app)
+
 
 
     # =====================
     # 🎵 ЗМІНА МУЗИКИ
     # =====================
     def chose_music(self, value):
-        # знайти індекс музики
-
-        # якщо "без музики":
-        # - stop()
-        # - app.music = None
-
-        # інакше:
-        # - записати назву файлу в app.music
-        # - завантажити файл
-        # - запустити цикл (-1)
-        pass
+        selected_music = self.music.get()
+        
+        # якщо "Вимкнено" (перший варіант):
+        if selected_music == settings_data["music"][0]:
+            mixer.music.stop()
+            self.app.music = settings_data["music"][0]
+        else:
+            # інакше:
+            # - знайти індекс музики
+            # - взяти назву файлу з musics
+            # - завантажити файл
+            # - встановити гучність
+            # - запустити з циклом (-1)
+            music_index = settings_data["music"].index(selected_music)
+            music_file = musics[music_index]
+            
+            try:
+                mixer.music.load(music_file)
+                mixer.music.set_volume(self.app.volume)
+                mixer.music.play(-1)
+                self.app.music = selected_music
+            except Exception as e:
+                print(f"Помилка при завантаженні музики: {e}")
+                self.app.music = settings_data["music"][0](-1)
+        
