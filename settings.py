@@ -30,8 +30,8 @@ KEYS = {
     "c": "c6.mp3"
 }
 #шлях до папки зі звуками та зображеннями
-sounds_path = "play_piano/assets/sounds/"
-images_path = "play_piano/assets/images/"
+sounds_path = "assets/sounds/"
+images_path = "assets/images/"
 #шляхи до зображень та звуків
 FON_START = "fon.jpg"
 WRONG_SOUND = "wrong.mp3"
@@ -42,3 +42,5 @@ LEVELS = ['fon_level0.png','fon_level1.png','fon_level2.png','fon_level3.png']
 BTNS = ["start_1.png","start_2.png","start_3.png","start_4.png"]
 #список з кількістю клавіш для кожного рівня
 LEVELS_KEYS = [2,3,4,5,6]
+BTN_LEVELS_X = [50, 200, 350, 125, 275]
+BTN_LEVELS_Y = [150, 150, 150, 250, 250]

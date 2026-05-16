@@ -5,8 +5,8 @@ from random import choice
 import pygame.mixer
 pygame.mixer.init()
 #завантаж звукм невірного та пропущеної клавіши
-wong_sound 
-missed_sound 
+wrong_sound = Sound(sounds_path + WRONG_SOUND)
+missed_sound = Sound(sounds_path + MISSED_SOUND)
 
 def load_sounds():
     sounds = {}
