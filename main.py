@@ -74,6 +74,25 @@ clock = pygame.time.Clock()
 # Створити ворога
 start_btn = Button(200,200,200,60,BLUE,
                    "Start",WHITE,command = start_game)
+def on_off_music():
+    if menu_ui.fon_music:
+        pygame.mixer.music.stop()
+        menu_ui.fon_music = False
+        menu_ui.btn_on_of.add_text ( "Fon music: off")
+    else:
+        pygame.mixer.music.load(FON_MUSICS[menu_ui.music])
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
+        menu_ui.fon_music = True
+        menu_ui.btn_on_of.add_text ( "Fon music: on")
+
+def open_menu():
+    global game_part
+    game_part = "menu"
+
+
+music_btn = Button(x=20,y = 20,w = 100,h=30,color = GREY,text = "Music:on",color_text = BLUE,command = on_off_music)
+menu_btn2 = Button(x=20,y = 60,w = 100,h=30,color = GREY,text = "Menu",color_text = BLUE,command = open_menu)
 '''4.Створити кнопку для переходу в меню
 х,у = 200, 300, ширина,висота - 200 60
 кольри -BLUE,  WHITE, текст - Menu
@@ -159,8 +178,10 @@ while run :
 # Позначити перемогу
     if game_part == "game":
         '''6.Відобразити ат перевірити по кнопці назад до старту'''
-       
-        
+        music_btn.draw(window)
+        music_btn.is_clicked()
+        menu_btn2.draw(window)
+        menu_btn2.is_clicked()
         for btn in btns:
             btn.draw(window)
 

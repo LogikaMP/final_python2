@@ -48,10 +48,10 @@ class Menu:
     '''Метод вклю викл музики'''    
     def on_off_fon(self):
         if self.fon_music:
-            self.btn_on_of.add_text ( "Fon music: on")
+            self.btn_on_of.add_text ( "Fon music: off")
             self.fon_music = False
         else:
-            self.btn_on_of.add_text ( "Fon music: off")
+            self.btn_on_of.add_text ( "Fon music: on")
             self.fon_music = True
         
     '''Метод вибору рівня'''
