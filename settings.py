@@ -33,7 +33,7 @@ ENEMYS = ["assets/en0.png","assets/en1.png","assets/en2.png","assets/en3.png"]
 PATH_IMG = "assets/"
 
 #список фонових звуків
-FON_MUSICS = ["","assets/level1.mp3", "assets/level2.mp3", "assets/level3.mp3"]
+FON_MUSICS = ["","assets/m1.mp3", "assets/m2.mp3", "assets/m3.mp3"]
 #список кількості клавіш для рівнів
 LEVELS = [0,3, 5, 10, 15]
 # Встановити колір синього (RGB)
