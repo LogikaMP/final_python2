@@ -91,6 +91,18 @@ class Menu(ctk.CTkFrame):
         self.level.pack(pady = 10)
         self.level.set(settings_data["levels"][self.app.level])
         # =====================
+        # 🎮 БЛОК РЕЖИМУ
+        # =====================
+        ctk.CTkLabel(self,text="Режим",text_color= self.app.temu["text"],
+                     font=("Arial",16)).pack(pady = 10)
+        self.mode = ctk.CTkOptionMenu(self,values=settings_data["modes"],
+                                      fg_color=self.app.temu["button"],
+                                      text_color=self.app.temu["text"],
+                                      button_color=self.app.temu["button_hover"],
+                                      command=self.chose_mode)
+        self.mode.pack(pady = 10)
+        self.mode.set(self.app.mode)
+        # =====================
         # 🔊 БЛОК ГУЧНОСТІ
         # =====================
         # label "Гучність"
@@ -134,6 +146,13 @@ class Menu(ctk.CTkFrame):
 
 
     # =====================
+    # 🎮 ВИБІР РЕЖИМУ
+    # =====================
+    def chose_mode(self, value):
+        self.app.mode = self.mode.get()
+
+
+    # =====================
     # 🔊 ЗМІНА ГУЧНОСТІ
     # =====================
     def chose_volume(self, value):
@@ -158,6 +177,12 @@ class Menu(ctk.CTkFrame):
         self.app.configure(fg_color=self.app.temu["bg"])
         if hasattr(self.app, "frame") and self.app.frame:
             self.app.frame.configure(fg_color=self.app.temu["frame"])
+            try:
+                # оновити вміст головного фрейму (кнопки, лейбли)
+                if hasattr(self.app, 'rebuild_main_frame'):
+                    self.app.rebuild_main_frame()
+            except Exception:
+                pass
 
         # перезавантажити Menu UI з новою темою
         self.destroy()
