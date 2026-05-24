@@ -7,7 +7,7 @@ from settings import BLACK
 # клас повзунка (Slider)
 #аргументи - координати, розмір, мак.число повзунка, колір повзунка, колір поінтера
 class Slider:                        
-    def __init__(self,x,y,w,h,max_num,col,col_pointer):
+    def __init__(self,x,y,w,h,max_num,col,col_pointer,img_sl = None,img_p=None):
         # зберіхи у властивість максимальне значення повзунка
         self.max_num = max_num+1
         # створи прямокутник основи повзунка - координати та розмір із конструктора
@@ -37,17 +37,35 @@ class Slider:
         self.font = pygame.font.Font(None,h)
         # одразу виклич метод для оновлення даних тексту сладйера, його значення
         self.update_value()
+        if img_sl:
+              self.img_sl = pygame.image.load(img_sl)
+              self.img_sl = pygame.transform.scale(self.img_sl,(w,h))
+        else:
+              self.img_sl = None
+        if img_p:
+              self.img_p = pygame.image.load(img_p)
+              self.img_p = pygame.transform.scale(self.img_p,(h*2,h*2))
+        else:
+              self.img_p = None
+
 
     def draw(self, screen):
         # намалюй основу повзунка
-        pygame.draw.rect(screen,self.col,self.slider, border_radius=20)
-        # додай рамку
-        pygame.draw.rect(screen,BLACK,self.slider,width = 2, border_radius=20)
-
-        # намалюй сам повзунок
-        pygame.draw.rect(screen, self.col_pointer,self.pointer,border_radius=15)
-        # додай рамку повзунка
-        pygame.draw.rect(screen,BLACK,self.pointer,width = 2, border_radius=20)
+        if self.img_sl:
+              screen.blit(self.img_sl,self.slider)
+        else:
+              
+            pygame.draw.rect(screen,self.col,self.slider, border_radius=20)
+            # додай рамку
+            pygame.draw.rect(screen,BLACK,self.slider,width = 2, border_radius=20)
+        if self.img_p:
+              screen.blit(self.img_p,self.pointer)
+        else:
+              
+            # намалюй сам повзунок
+            pygame.draw.rect(screen, self.col_pointer,self.pointer,border_radius=15)
+            # додай рамку повзунка
+            pygame.draw.rect(screen,BLACK,self.pointer,width = 2, border_radius=20)
         
         # обчисли позицію тексту по X : 
         #х.поінтера + ширина повзунка // 2.6
@@ -94,5 +112,5 @@ class Slider:
         # знайдене значення ділимо на ширину слайдера та множимо на максимальне значення слайдера
         #округлити значення
         self.value = int((value / self.slider.w)* self.max_num)
-        self.value_txt = self.font.render(str(self.value),True,BLACK)
+        self.value_txt = self.font.render(str(self.value),True,(255,255,255))
         # створити текст значення

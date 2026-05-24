@@ -10,6 +10,8 @@ from ui.settingsUi import SettingsMenu
 # 7. Ініцилізація та Створити вікно 
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+fon = pygame.image.load(FON)
+fon = pygame.transform.scale(fon,(WINDOW_WIDTH,WINDOW_HEIGHT))
 setting = SettingsMenu(10,10,100,40,GRAY,WHITE,BLUE)
 # 8. Створити список ректів - клавіш
 keys_rect = create_keys(setting.num_keys)
@@ -111,7 +113,7 @@ while run:
                keys_pressed.discard(key)
     
 #  - відобразити фон, клавіши, оновити вікно
-   window.fill(FON)
+   window.blit(fon,(0,0))
    '''виклич метод малювати меню'''
    setting.darw(window)
    '''перепиши список клавіш :

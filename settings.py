@@ -42,3 +42,4 @@ KEYS_RAND = {
     "c": "rand_07.wav",
 }
 path_img = "assets/images/"
+FON = path_img + "fon.png"

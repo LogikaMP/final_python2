@@ -52,11 +52,12 @@ def load_sounds_img():
     return sound_img
 def move_sound_img(sounds_img_list,screen):
     for img in sounds_img_list.copy():
-        img["y"]-= 5
+        img["y"]-= 15
         if img["y"] < 0:
             sounds_img_list.remove(img)
             return
         screen.blit(img["img"],(img["x"],img["y"]))
+        
 
 def random_color():
     return (

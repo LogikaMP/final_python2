@@ -4,7 +4,7 @@
 # імпортуй список клавіш
 from buttons import Button
 from ui.slider import Slider
-from settings import KEYS,BLACK, GRAY, BLUE
+from settings import KEYS,BLACK, GRAY, BLUE,WHITE
 # клас меню налаштувань. Аргументи:
 # координати для кнокпи налаштування та розміри
 # кольри: кнопки, тексту, слайдера
@@ -15,12 +15,12 @@ class SettingsMenu:
         # координати, розмір, кольри - з конструктора класу, 
         # текст -"Setting" , 
         # команда - відкрити меню
-        self.btn_open = Button(x,y,w,h,col_btn,"Settings",col_txt,command= self.open_menu,image="assets/images/buttons/settings_hover.png")
+        self.btn_open = Button(x,y,w/1.5,h,col_btn,None,col_txt,command= self.open_menu,image="assets/images/buttons/menu.png")
         # створи кнопку повернення назад
         # координати, розмір, кольри - з конструктора класу, 
         # текст -"Back" , 
         # команда - закрити меню
-        self.btn_close = Button(x,y,w,h,col_btn,"Back",col_txt,command= self.close_menu,image="assets/images/buttons/exit_hover.png")
+        self.btn_close = Button(x,y,w/1.5,h,col_btn,None,col_txt,command= self.close_menu,image="assets/images/buttons/menu_2.png")
         # змісти координати для розміщення елементів меню - тексти+слайдери, 
         # х = ч + половина висоти, у = у + ширина
         x = x + h//2
@@ -30,7 +30,7 @@ class SettingsMenu:
         # створи текстову кнопку (підпис) для гучності: 
         # координати - що розрахували вище, 
         # текст = "Volume", команди = немає
-        self.txt_volume = Button(x,y,w,h,col_btn,"volume",color_text=BLACK,command=None)
+        self.txt_volume = Button(x,y,w,h,col_btn,"volume",color_text=WHITE,command=None,image="assets/images/buttons/menu_6.png")
         
         # обчисли позицію для повзунка (праворуч від тексту), 
         # х2 = права координата текстової кнокпи + половина висоти
@@ -44,7 +44,8 @@ class SettingsMenu:
         # ширина = три ширина, 
         # висота = половина висоти
         # (від 0 до 101)
-        self.slider_volume = Slider(x2,y,w*3,h//2,max_num=100,col=col_slider,col_pointer=col_btn)
+        self.slider_volume = Slider(x2,y,w*3,h//2,max_num=100,col=WHITE,col_pointer=WHITE,
+                                     img_p="assets/images/buttons/menu_6.png")
        
         # створи змінну для збереження гучності = 0
         self.volume = 0 
@@ -55,7 +56,7 @@ class SettingsMenu:
         # створи текст для кількості клавіш: 
         # координати - що розрахували вище, 
         # текст = "Num keys", команди = немає
-        self.txt_num_keys = Button(x,y,w,h,col_btn,text="Num keys",color_text="BLACK",command=None)
+        self.txt_num_keys = Button(x,y,w,h,col_btn,text="Num keys",color_text=WHITE,command=None,image="assets/images/buttons/menu_6.png")
  
         # трохи змісти вниз : у = у + чверть висоти
   
@@ -65,7 +66,8 @@ class SettingsMenu:
         # висота = половина висоти
         # (від 0 до кількості клавіш KEYS+1)
         self.slider_num_keys = Slider(x2,y+h//3,w*3,h//2,max_num=7,
-                                      col=col_slider,col_pointer=col_btn)
+                                      col=WHITE,col_pointer=col_btn,
+                                      img_p="assets/images/buttons/menu_6.png")
         self.num_keys = 0
         # створи змінну для збереження кількості клавіш = 0
         # задай початковий стан (гра)= властивість game_part = "game"
@@ -77,12 +79,12 @@ class SettingsMenu:
         текст для тексту-кнопки Random sound '''
         y = y + h*2
         x = x + w + 10
-        self.txt_rand = Button(x,y,w,h,col_btn,text="Random sound",color_text=BLACK,command=None)
+        self.txt_rand = Button(x,y,w,h,col_btn,text="Random sound",color_text=WHITE,command=None,image="assets/images/buttons/menu_6.png")
       
         ''': для кнокпи зміни х - х + шрина кнопки + 10
         текст - "-" 
         команда - rand_sound'''
-        self.btn_rand_sound = Button(x+w+10,y,h,h,col_btn,"-",col_txt,command=self.rand_sound)
+        self.btn_rand_sound = Button(x+w+10,y,h,h,col_btn,None,col_txt,command=self.rand_sound,image="assets/images/buttons/menu_2.png")
         
         
         ''': додай прапорець для вкл/викл on_rand_sound'''
@@ -92,10 +94,12 @@ class SettingsMenu:
     ''':створи метод  вкл/викл випадкових звуків'''
     def rand_sound(self):
         if self.on_rand_sound:
-            self.btn_rand_sound.add_text("-")
+            self.btn_rand_sound.image = "assets/images/buttons/menu_2.png"
+            self.btn_rand_sound.load_img()
             self.on_rand_sound = False
         else:
-            self.btn_rand_sound.add_text("X")
+            self.btn_rand_sound.image = "assets/images/buttons/menu_5.png"
+            self.btn_rand_sound.load_img()
             self.on_rand_sound = True    
 
         
