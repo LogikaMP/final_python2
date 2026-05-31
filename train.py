@@ -23,8 +23,7 @@ class GameFrame(ctk.CTkFrame):
         # =====================
         # 🎮 СТАН ГРИ
         # =====================
-        self.used_texts = set()
-        self.text = self.choose_text()
+        self.text = random.choice(levels[self.app.level])
         self.index = 0
         self.start_time = None
         self.finished = False
@@ -47,10 +46,6 @@ class GameFrame(ctk.CTkFrame):
         self.label_timer = ctk.CTkLabel(frame_info, text="Час: 0.0 сек",
                                        text_color=self.app.temu["text"])
         self.label_timer.pack(side="left", padx=10)
-
-        self.label_mode = ctk.CTkLabel(frame_info, text=f"Режим: {self.app.mode}",
-                                       text_color=self.app.temu["accent"])
-        self.label_mode.pack(side="left", padx=10)
 
         # =====================
         # 📝 ВВЕДЕНИЙ ТЕКСТ
@@ -118,8 +113,6 @@ class GameFrame(ctk.CTkFrame):
     # =====================
     def key_press(self, event):
         if self.finished:
-            if event.keysym == "Return":
-                self.restart()
             return
         
         if self.start_time is None:
@@ -139,7 +132,6 @@ class GameFrame(ctk.CTkFrame):
         self.textbox.config(state="normal")
         # Видалити попередню підсвітку
         self.textbox.tag_remove("current", "1.0", "end")
-        self.textbox.tag_remove("wrong", f"1.{self.index}", f"1.{self.index + 1}")
         
         if entered_char == expected_char:
             self.textbox.tag_add("correct", f"1.{self.index}", f"1.{self.index + 1}")
@@ -147,43 +139,21 @@ class GameFrame(ctk.CTkFrame):
         else:
             self.textbox.tag_add("wrong", f"1.{self.index}", f"1.{self.index + 1}")
             self.errors += 1
-            if self.app.mode == settings_data["modes"][1]:
-                self.label_input.configure(text="Помилка! Введи правильний символ")
-                self.textbox.tag_add("current", f"1.{self.index}", f"1.{self.index + 1}")
-                self.textbox.config(state="disabled")
-                return
-            self.index += 1
-
+        
+        
+        
         # Підсвітити наступний символ
         if self.index < len(self.text):
             self.textbox.tag_add("current", f"1.{self.index}", f"1.{self.index + 1}")
-
+        
         self.textbox.config(state="disabled")
+        
         # Показати введений текст
         entered_so_far = self.text[:self.index]
-        self.label_input.configure(text=f"Введено: {entered_so_far}")
+        self.label_input.configure(text=f"Введено: {entered_so_far}")(state="disabled")
+        self.index += 1
         self.label_count.configure(text=f"Надруковано: {self.index}")
 
-
-    def choose_text(self):
-        if self.app.level == len(levels):
-            options = []
-            for level_texts in levels:
-                options.extend(level_texts)
-        else:
-            options = levels[self.app.level]
-
-        if len(options) == 0:
-            return ""
-
-        unused_texts = [text for text in options if text not in self.used_texts]
-        if not unused_texts:
-            self.used_texts.clear()
-            unused_texts = options[:]
-
-        text = random.choice(unused_texts)
-        self.used_texts.add(text)
-        return text
 
     # =====================
     # 🏁 ПОКАЗ РЕЗУЛЬТАТУ
@@ -213,27 +183,21 @@ class GameFrame(ctk.CTkFrame):
     # 🎵 МУЗИКА
     # =====================
     def handle_music(self):
-        if self.app.music == settings_data["music"][0]:
-            return
-
-        if mixer.music.get_busy():
-            return
-
-        try:
-            music_index = settings_data["music"].index(self.app.music)
-            music_file = musics[music_index]
-            mixer.music.load(music_file)
-            mixer.music.set_volume(self.app.volume)
-            mixer.music.play(-1)
-        except Exception as e:
-            print(f"Помилка музики: {e}")
+        if self.app.music != settings_data["music"][0]:
+            try:
+                music_index = settings_data["music"].index(self.app.music)
+                music_file = musics[music_index]
+                mixer.music.load(music_file)
+                mixer.music.set_volume(self.app.volume)
+                mixer.music.play(-1)
+            except Exception as e:
+                print(f"Помилка музики: {e}")
 
 
     # =====================
     # 🔁 ПЕРЕЗАПУСК
     # =====================
     def restart(self):
-        self.text = self.choose_text()
         self.index = 0
         self.start_time = None
         self.finished = False
@@ -244,10 +208,8 @@ class GameFrame(ctk.CTkFrame):
         self.textbox.insert("1.0", self.text)
         self.textbox.config(state="disabled")
         
-        self.label_input.configure(text="Введіть текст...")
         self.label_count.configure(text="Надруковано: 0")
         self.label_timer.configure(text="Час: 0.0 сек")
-        self.label_mode.configure(text=f"Режим: {self.app.mode}")
         
         if self.timer_id:
             self.after_cancel(self.timer_id)
